@@ -13,12 +13,13 @@ main(int argc, char* argv[]) {
 
 		pid_t pid;
 		if((pid = fork()) == 0) {
-			char proces[10];
-			char kroki[10];
+			char proces[255];
 			
-			sprintf(proces, "%d", i);
-			sprintf(kroki, "%d", (int)strtol(argv[i+2], NULL, 10));
-			execl("./potomny","potomny",proces,kroki,NULL);
+			sprintf(proces, "./potomny %d %d", i, (int)strtol(argv[i+2], NULL, 10));
+			//sprintf(proces, "./potomny %d %s", i, (argv[i+2]));
+			printf("Uruchamia %s: \n\n", proces);
+			exit(system(proces));
+			
 		}
 		
 	}
