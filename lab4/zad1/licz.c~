@@ -36,7 +36,7 @@ int main (int argc, char *argv[]){
 	wynik.ile = licz;
 	
 	file = open("wynik.bin", O_WRONLY | O_APPEND);
-	if (file < 0) {
+	if (!file) {
 		perror("fopen"); 
 		exit(1);
 	}
