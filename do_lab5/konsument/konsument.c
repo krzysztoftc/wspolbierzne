@@ -1,0 +1,31 @@
+#include <stdio.h> 
+#include <mqueue.h> 
+#include "common.h"
+
+int main(int argc, char *argv[]) { 
+	unsigned int  kroki;
+	sscanf(argv[1], "%d", &kroki );
+	
+	msg_type msg ;
+	int i, res; 
+	unsigned int prior; 
+	mqd_t  mq; 
+	struct mq_attr attr; 
+	
+	/* Utworzenie kolejki komunikatow -----------------*/ 
+	
+	unsigned int priority = 1;
+	attr.mq_msgsize = sizeof(msg); 
+	attr.mq_maxmsg = 8; 
+	attr.mq_flags = 0; 
+	mq=mq_open("/Kolejka", O_RDWR, 0660, NULL ); 
+	printf("sizeof msg: %ld\n", sizeof(msg));
+	for(i = 0; i < kroki; i++) { 
+		// Przeslanie komunikatu do kolejki 
+		res = mq_receive(mq,(char *)&msg,sizeof(msg_type),&priority);  
+		printf ("odebrano komunikat: %s\n", msg.text);
+	} 
+		mq_close(mq);
+
+	return 0;
+} 
